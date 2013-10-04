@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.thinkbigprg.MapperInterfaceDao.StudentDao">
+
+	<resultMap id="studentResultMap" type="com.thinkbigprg.bean.Student">
+		<id property="id" column="ID" />
+		<result property="name" column="NAME" />
+		<result property="address" column="ADDRESS"  />
+		<result property="age" column="AGE" />
+	</resultMap>
+
+
+	<insert id="insertRecord" parameterType="com.thinkbigprg.bean.Student">
+		insert into student
+		(id, name, address, age)
+		values
+		(#{id}, #{name}, #{address}, #{age})
+	</insert>
+
+
+	<select id="getStudentById" resultMap="studentResultMap"
+		parameterType="int">
+		select *
+		from student 
+		<include refid="idClause"/>
+	</select>
+
+	<delete id="deleteRecord" parameterType="int">
+		delete from student
+		<include refid="idClause"/>
+	</delete>
+
+
+	<update id="updateRecord" parameterType="com.thinkbigprg.bean.Student">
+		update student set name = #{name}, address = #{address}, age= #{age}
+		<include refid="idClause"/>
+	</update>
+	
+	<sql id="idClause">
+		where id = #{id}
+	</sql>
+	
+	<select id="getStudentByAge" parameterType="int" resultMap="studentResultMap">
+		select * from student where age = #{age}
+	</select>
+	
+</mapper>
